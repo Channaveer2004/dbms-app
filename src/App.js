@@ -5,31 +5,30 @@ function App() {
   const [name, setName] = useState("");
   const [datetime, setDate] = useState("");
   const [description, setDescription] = useState("");
-  const [transactions,setTransactions] = useState([]);
-  
-  useEffect(()=>{
-    getTransaction().then(setTransactions)
-  })
+  const [transactions, setTransactions] = useState([]);
 
-  async function getTransaction(){
+  useEffect(() => {
+    getTransaction().then(setTransactions);
+  }, []);
+
+  async function getTransaction() {
     const url = process.env.REACT_APP_API_URL + "/transactions";
     const response = await fetch(url);
     return await response.json();
   }
-  
+
   function handleSubmit(e) {
     e.preventDefault();
-    let url = process.env.REACT_APP_API_URL + "/transaction";
+    const url = process.env.REACT_APP_API_URL + "/transaction";
     const price = parseFloat(name.split(" ")[0]);
     const actualName = name.substring(name.indexOf(" ") + 1);
-    console.log('Fetching from URL:', url);
 
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         name: actualName,
-        description, 
+        description,
         datetime,
         price
       })
@@ -41,26 +40,27 @@ function App() {
         return response.json();
       })
       .then(json => {
-        console.log('Transaction details:', json);
-        setName(" ");
-        setDate(" ");
-        setDescription(" ")
+        setName("");
+        setDate("");
+        setDescription("");
+        getTransaction().then(setTransactions);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }
 
-  let balance =0;
-  for(const transaction of transactions){
-    balance = balance + transaction.price;
+  let balance = 0;
+  for (const transaction of transactions) {
+    balance += transaction.price;
   }
 
   return (
     <>
       <main>
-        <h1>₹{balance}</h1>
-        {/* {transactions.length} */}
+
+        <h1>฿udge£ ฿udd¥</h1>
+        <h2>Total Available balance ₨: <span className="green">{balance}</span></h2>
         <form onSubmit={handleSubmit}>
           <div className="basic">
             <input
@@ -70,7 +70,7 @@ function App() {
               placeholder="Add expense"
             />
             <input
-              type="datetime-local"
+              type="date"
               onChange={e => setDate(e.target.value)}
               value={datetime}
             />
@@ -79,34 +79,39 @@ function App() {
           <div className="description">
             <input
               type="text"
-              placeholder="description"
+              placeholder="Description"
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
           </div>
 
-          <button type="submit">Add new transaction</button>
+          <button class="Btn">
+            ADD TRANSACTION
+            <svg class="svgIcon" viewBox="0 0 576 512"><path d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z"></path></svg>
+          </button>
         </form>
 
-        <div className="transactions">
-      {transactions.length > 0 && transactions.map(transaction => (
-        <div className="transaction" 
-key={transaction.id}>
-          <div className="left">
-            <div className="name">{transaction.name}</div>
-            <div className="description">{transaction.description}</div>
+        <div className="transactions-container">
+          <div className="transactions">
+            {transactions.length > 0 && transactions.map(transaction => (
+              <div className="transaction" key={transaction.id}>
+                <div className="left">
+                  <div className="name">{transaction.name}</div>
+                  <div className="description">{transaction.description}</div>
+                </div>
+                <div className="right">
+                  <div className={"price " + (transaction.price < 0 ? 'red' : 'green')}>
+                    ₹{transaction.price.toFixed(2)}
+                  </div>
+                  <div className="datetime">{transaction.datetime}</div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="right">
-            <div className={"price " + (transaction.price < 0 ? 'red' : 'green')}>
-              {transaction.price < 0 ? `-${Math.abs(transaction.price)}` : transaction.price}
-            </div>
-          </div>
-          <div className="datetime">{transaction.datetime}</div>
         </div>
-      ))}
-    </div>
       </main>
     </>
+
   );
 }
 
