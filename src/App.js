@@ -1,5 +1,6 @@
 import './App.css';
 import { useEffect, useState } from "react";
+import shortid from 'shortid';
 
 function App() {
   const [name, setName] = useState("");
@@ -94,7 +95,7 @@ function App() {
         <div className="transactions-container">
           <div className="transactions">
             {transactions.length > 0 && transactions.map(transaction => (
-              <div className="transaction" key={transaction.id}>
+              <div className="transaction" key={shortid.generate()}>
                 <div className="left">
                   <div className="name">{transaction.name}</div>
                   <div className="description">{transaction.description}</div>

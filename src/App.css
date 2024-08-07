@@ -12,19 +12,18 @@
 }
 
 body {
-  background-color: #121212;
-  color: #ddd;
+  background: radial-gradient(circle, #e308a5, #04c0ef);
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
 }
 
 main {
-  max-width: 580px;
+  max-width: 680px;
   margin: 30px auto;
   padding: 20px;
   background-color: #1e1e1e;
-  border-radius: 8px;
+  border-radius: 28px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -38,7 +37,7 @@ h1 {
   text-align: center;
   color: #fff;
   margin: 0 0 20px;
-  font-size: 2em;
+  font-size: 3em;
 }
 
 form {
@@ -51,7 +50,7 @@ form input {
   color: #ddd;
   border: 2px solid #666;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   margin-bottom: 10px;
 }
 
@@ -68,10 +67,11 @@ form input[type="datetime-local"] {
   background-color: rgb(15, 15, 15);
   border: none;
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
   gap: 18px;
-  margin-left: 25px;
+  margin-left: 28px;
+  margin-top: 22px;
   border-radius: 20px;
   cursor: pointer;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
@@ -161,7 +161,9 @@ form input[type="datetime-local"] {
 }
 
 .transaction .name {
+  padding-bottom: 10px;
   font-size: 1.8em;
+  text-transform: uppercase;
   font-weight: bold;
   color: #fff;
 }
@@ -180,7 +182,7 @@ form input[type="datetime-local"] {
 }
 
 .price {
-  font-size: 1.2em;
+  font-size: 1.7em;
   font-weight: bold;
 }
 
